@@ -1,0 +1,40 @@
+<div class="container" [ngSwitch]="fetchStatus">
+  <div class="row">
+    <h1>Weather Forecast</h1>
+    </div>
+  <div class="row">
+    <form class="input-group col-lg-4 col-md-6 col-sm-12 mb-3 p-0" [formGroup]="cityInputForm" (ngSubmit)="onSubmit()">
+      <input class="form-control" type="text" (change)="onInputChanged()" required formControlName="cityName" autofocus placeholder="Please enter city name" />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="submit" [disabled]="!cityInputForm.valid">Show weather</button>
+      </div>
+    </form>
+  </div>
+  <ng-container *ngSwitchCase="FetchStatus.Fetched">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12 rounded border-right border-bottom bg-success">
+        <city-weather class="d-block" [city]="cityWeather.cityInfo" [weather]="cityWeather.currentWeather"></city-weather>
+      </div>
+    </div>
+    <div class="row border-top border-left">
+      <div class="col-lg-2 col-md-3 col-sm-4 rounded border-right border-bottom bg-success text-dark" *ngFor="let weather of cityWeather.hourlyWeather">
+        <weather-forecast class="d-block" [weather]="weather"></weather-forecast>
+      </div>
+    </div>
+  </ng-container>
+  <div class="row" *ngSwitchCase="FetchStatus.Fetching">
+    <div class="col-12 col-lg-4 col-md-6 col-sm-12 mb-3 p-0 text-center">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+  </div>
+  <div class="row" *ngSwitchCase="FetchStatus.NotFound">
+    <div class="col-12 p-0">
+      <span class="text-info">City was not found!</span>
+    </div>
+  </div>
+  <div class="row" *ngSwitchCase="FetchStatus.Error">
+    <div class="col-12 p-0">
+      <span class="text-danger">An unexpected error occurred while processing your request!</span>
+    </div>
+  </div>
+</div>

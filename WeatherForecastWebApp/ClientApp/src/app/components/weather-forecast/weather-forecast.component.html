@@ -1,0 +1,4 @@
+{{ weather.dateTime | date: 'MMM d, HH:mm' }}
+<br />
+<strong>{{ weather.temperature }} &#8451;</strong>
+<img [src]="weather.icon" title="{{ weather.description }}" />
